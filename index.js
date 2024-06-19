@@ -263,3 +263,146 @@ const calcAverage1 = function (arr) {
 console.log(calcAverage1([2, 3, 7]));
 console.log(calcAverage1(totals));
 console.log(calcAverage1(tips));
+
+
+// function w3reasource
+// Write a JavaScript function that returns array elements larger than a number.
+// Define a function named BiggerElements that returns a filtering function
+function BiggerElements(val) {
+  // Return a filtering function that checks if the array element is greater than or equal to the given value (val)
+  return function(evalue, index, array) {
+     return (evalue >= val);
+  };
+}
+
+// Create an array named result by filtering elements greater than or equal to 10 using BiggerElements(10)
+var result = [11, 45, 4, 31, 64, 10].filter(BiggerElements(10));
+
+// Log the filtered array to the console
+console.log(result); 
+
+// Write a JavaScript function to get all possible subsets with a fixed length (for example 2) combinations in an array.
+// Sample array : [1, 2, 3] and subset length is 2
+// Expected output : [[1,2],[1,3],[2,3]]
+
+// Function to get all possible subsets with a fixed length
+function getSubsetsWithLength(arr, length) {
+  const result = [];
+
+  // Recursive function to generate subsets
+  function generateSubsets(currentSubset, start) {
+      if (currentSubset.length === length) {
+          result.push([...currentSubset]); // Add a copy of the currentSubset to the result
+          return;
+      }
+
+      for (let i = start; i < arr.length; i++) {
+          currentSubset.push(arr[i]);
+          generateSubsets(currentSubset, i + 1);
+          currentSubset.pop();
+      }
+  }
+
+  generateSubsets([], 0);
+  return result;
+}
+
+// Example usage:
+const inputArray = [1, 2, 3];
+const subsetLength = 2;
+const resultSubsets = getSubsetsWithLength(inputArray, subsetLength);
+
+// Log the result to the console
+console.log(resultSubsets);
+
+
+// Write a JavaScript function to find the first not repeated character.
+// Sample arguments : 'abacddbec'
+// Expected output : 'e'
+
+// Define a function named find_FirstNotRepeatedChar that finds the first non-repeated character in a given string
+function find_FirstNotRepeatedChar(str) {
+  // Convert the input string into an array of characters
+  var arra1 = str.split('');
+  
+  // Initialize variables result and ctr for storing the result and counting character occurrences
+  var result = '';
+  var ctr = 0;
+ 
+  // Iterate through each character in the array
+  for (var x = 0; x < arra1.length; x++) {
+    // Reset the counter (ctr) for each character
+    ctr = 0;
+ 
+    // Iterate through the array again to count occurrences of the current character
+    for (var y = 0; y < arra1.length; y++) {
+      // Check if the current character is equal to the character at position y
+      if (arra1[x] === arra1[y]) {
+        // If true, increment the counter (ctr)
+        ctr += 1;
+      }
+    }
+ 
+    // Check if the counter (ctr) is less than 2 (character occurs only once)
+    if (ctr < 2) {
+      // If true, assign the current character to the result and break out of the loop
+      result = arra1[x];
+      break;
+    }
+  }
+  
+  // Return the first non-repeated character found
+  return result;
+}
+
+// Log the result of calling find_FirstNotRepeatedChar with the input string 'abacddbec' to the console
+console.log(find_FirstNotRepeatedChar('abacddbec')); 
+
+
+// Write a JavaScript function to find the longest substring in a given string without repeating characters.
+// Function to find the longest substring without repeating characters
+function longest_substring_without_repeating_characters(input) {
+  // Split the input string into an array of characters
+  var chars = input.split('');
+  var curr_char;
+  var str = "";
+  var longest_string = "";
+  var hash = {};
+
+  // Loop through each character in the input string
+  for (var i = 0; i < chars.length; i++) {
+    curr_char = chars[i];
+
+    // Check if the character is not already in the hash table
+    if (!hash[chars[i]]) { 
+      // Add the character to the current substring
+      str += curr_char; 
+      // Update the hash table with the character and its index
+      hash[chars[i]] = {index:i};
+    } else {
+      // If there's a repeating character, compare lengths and update if necessary
+      if (longest_string.length <= str.length) {
+        longest_string = str;
+      }
+      // Get the index of the previous occurrence of the repeating character
+      var prev_dupeIndex = hash[curr_char].index;
+      // Extract the substring from the previous occurrence to the current index
+      var str_FromPrevDupe = input.substring(prev_dupeIndex + 1, i);
+      // Update the current substring with the new non-repeating characters
+      str = str_FromPrevDupe + curr_char;
+      // Reset the hash table for the new substring
+      hash = {};
+      // Update the hash table with the characters and their indices in the new substring
+      for (var j = prev_dupeIndex + 1; j <= i; j++) {
+        hash[input.charAt(j)] = {index:j};
+      }
+    }
+  }
+
+  // Return the longest substring (either the current substring or the previously found longest)
+  return longest_string.length > str.length ? longest_string : str;
+}
+
+// Example usage:
+console.log(longest_substring_without_repeating_characters("google.com")); 
+console.log(longest_substring_without_repeating_characters("example.com"));  
